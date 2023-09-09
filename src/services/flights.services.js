@@ -21,5 +21,17 @@ const create = async (origin, destination, date) => {
     return flight
 }
 
+const getAll = async (origin, destination, bigger, smaller) => {
+    if (dayjs(bigger) < dayjs(smaller)) throw errors.invalidBigSmall()
+    const flights = (await flightsRepository.getAll(origin, destination, bigger, smaller)).rows
 
-export const flightsServices = {create}
+    flights.map(x => {
+        const data = dayjs(x.date).format('DD-MM-YYYY')
+        x.date = data
+    })
+    return flights
+}
+
+
+
+export const flightsServices = {create, getAll}

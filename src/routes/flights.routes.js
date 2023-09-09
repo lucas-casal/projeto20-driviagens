@@ -7,5 +7,6 @@ import { createFlightSchema } from "../schemas/flights.schemas.js";
 const flightsRouter = Router();
 
 flightsRouter.post('/flights', validateSchemas(createFlightSchema), flightsControllers.create)
+flightsRouter.get('/flights', flightsControllers.getAll)
 
 export default flightsRouter;

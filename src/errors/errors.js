@@ -62,4 +62,11 @@ const invalidDate = () => {
     }
 }
 
-export const errors = {notFound, conflict, invalidLength, invalidOrigDest, invalidDate}
+const invalidBigSmall = () => {
+    return {
+        type: "invalidData",
+        message: "A maior data selecionada deve ser maior do que a menor data selecionada!"
+    }
+}
+
+export const errors = {notFound, conflict, invalidLength, invalidOrigDest, invalidDate, invalidBigSmall}

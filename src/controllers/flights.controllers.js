@@ -8,4 +8,13 @@ const create = async (req, res) => {
     
     res.status(httpStatus.CREATED).send(flight)
 }
-export const flightsControllers = {create}
+
+const getAll = async (req, res) => {
+    const {origin, destination, "bigger-date": bigger, "smaller-date": smaller} = req.query
+
+    const flights = await flightsServices.getAll(origin, destination, bigger, smaller)
+
+    return res.send(flights)
+}
+
+export const flightsControllers = {create, getAll}

@@ -8,4 +8,11 @@ const create = async (req, res) => {
     
     res.status(httpStatus.CREATED).send(travel)
 }
-export const travelsControllers = {create}
+
+const getAll = async (req, res) =>{
+    const travels = travelsServices.getAll()
+
+    res.send(travels)
+}
+
+export const travelsControllers = {create, getAll}

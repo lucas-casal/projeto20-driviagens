@@ -7,10 +7,10 @@ export function validateSchemas (schema){
 
     if (date) {
         delete newBody.date
-        const month = date.substring(0,2);
-        const day = date.substring(3,5);
+        const day = date.substring(0,2);
+        const month = date.substring(3,5);
         const year = date.substring(6)
-        newBody.date = `${day}-${month}-${year}`
+        newBody.date = `${year}-${month}-${day}`
     }
     const validation = schema.validate(newBody, {abortEarly: false})
 
