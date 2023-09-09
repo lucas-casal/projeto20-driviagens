@@ -8,4 +8,16 @@ const getById = (id) => {
     return db.query(`SELECT * FROM passengers WHERE id=$1;`, [id])
 }
 
-export const usersRepository = {create, getById}
+const getAll = (name) => {
+    return db.query(`
+        SELECT COUNT(travels.*) AS travels, passengers."firstName" || ' ' || passengers."lastName"  as passenger, passengers.id as "passengerId" from travels
+        RIGHT JOIN passengers ON travels."passengerId" = passengers.id
+        WHERE passengers."firstName" || ' ' || passengers."lastName" ILIKE $1
+        GROUP BY passengers.id, passengers."firstName", passengers."lastName"
+        ORDER BY travels DESC
+        
+        ;
+    `, [name])
+}
+
+export const usersRepository = {create, getById, getAll}

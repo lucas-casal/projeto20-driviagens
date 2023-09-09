@@ -22,7 +22,8 @@ const create = async (origin, destination, date) => {
 }
 
 const getAll = async (origin, destination, bigger, smaller) => {
-    if (dayjs(bigger) < dayjs(smaller)) throw errors.invalidBigSmall()
+    if (dayjs(bigger) < dayjs(smaller)) throw errors.invalidBigSmall('tamaho')
+    if ((bigger && !smaller) || (!bigger && smaller)) throw errors.invalidBigSmall('falta')
     const flights = (await flightsRepository.getAll(origin, destination, bigger, smaller)).rows
 
     flights.map(x => {

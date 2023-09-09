@@ -32,11 +32,19 @@ const getAll = (origin, destination, bigger, smaller) => {
     smaller ? parameters.push('smaller') : ''
 
     const values = []
-    origin ? values.push(origin) : ''
-    destination ? values.push(destination) : ''
+    function originDestinationText(original){
+        let str = original
+        str = str.replace(/[ÀÁÂÃÄÅ]/g,"a");
+        str = str.replace(/[àáâãäå]/g,"a");
+        str = str.replace(/[ÈÉÊË]/g,"e");
+        return str.toLowerCase()+'%'        
+    }
+    origin ? values.push(originDestinationText(origin)) : ''
+    destination ? values.push(originDestinationText(destination)) : ''
     bigger ? values.push(biggerFormat) : ''
     smaller ? values.push(smallerFormat) :'' 
 
+    
     function queryConstructor(){
         let queryWhere = parameters.length > 0 ? 'WHERE' : '';
         let count = 0;
@@ -45,7 +53,7 @@ const getAll = (origin, destination, bigger, smaller) => {
             switch (x){
                 case 'origin':
                     count++
-                    queryWhere += ` o.name LIKE $${count}`;
+                    queryWhere += ` o.name ILIKE $${count}`;
                     break;
                 
                 case 'destination': 
@@ -53,7 +61,7 @@ const getAll = (origin, destination, bigger, smaller) => {
                     if (count >= 2) {
                         queryWhere += ` AND`
                     }
-                    queryWhere += ` d.name LIKE $${count}`;
+                    queryWhere += ` d.name ILIKE $${count}`;
                     break;
 
                 case 'bigger':

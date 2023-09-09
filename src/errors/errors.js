@@ -62,11 +62,28 @@ const invalidDate = () => {
     }
 }
 
-const invalidBigSmall = () => {
+const invalidBigSmall = (resource) => {
+    let message;
+    switch (resource){
+        case 'tamanho':
+            type = 'badreq'
+            message = "A maior data selecionada deve ser maior do que a menor data selecionada!";
+            break;
+        case 'falta':
+            type = "invalidData"
+            message = "Só foi enviado 1 dos parâmetros que devem ser enviados!"
+    } 
     return {
-        type: "invalidData",
-        message: "A maior data selecionada deve ser maior do que a menor data selecionada!"
+        type,
+        message
     }
 }
 
-export const errors = {notFound, conflict, invalidLength, invalidOrigDest, invalidDate, invalidBigSmall}
+const toomany = () => {
+    return {
+        type: "tooMany",
+        message: "Too many results"
+    }
+}
+
+export const errors = {notFound, conflict, invalidLength, invalidOrigDest, invalidDate, invalidBigSmall, toomany}
