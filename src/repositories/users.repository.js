@@ -9,15 +9,16 @@ const getById = (id) => {
 }
 
 const getAll = (name) => {
+    const info = name ? ['%'+name+'%'] : []
     return db.query(`
         SELECT COUNT(travels.*) AS travels, passengers."firstName" || ' ' || passengers."lastName"  as passenger, passengers.id as "passengerId" from travels
         RIGHT JOIN passengers ON travels."passengerId" = passengers.id
-        WHERE passengers."firstName" || ' ' || passengers."lastName" ILIKE $1
+        ${name ? `WHERE passengers."firstName" || ' ' || passengers."lastName" ILIKE $1` : ``}
         GROUP BY passengers.id, passengers."firstName", passengers."lastName"
         ORDER BY travels DESC
         
         ;
-    `, [name])
+    `, info)
 }
 
 export const usersRepository = {create, getById, getAll}

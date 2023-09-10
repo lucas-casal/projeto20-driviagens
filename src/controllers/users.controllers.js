@@ -12,4 +12,12 @@ const create = async (req, res) => {
     res.status(httpStatus.CREATED).send(registeredPassenger)
 }
 
-export const usersControllers = {create}
+const getAll = async (req, res) => {
+    const {name} = req.query;
+
+    const users = await usersServices.getAll(name)
+
+    res.send(users)
+}
+
+export const usersControllers = {create, getAll}

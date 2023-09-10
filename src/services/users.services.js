@@ -6,10 +6,14 @@ const create = (firstName, lastName) => {
 }
 
 const getAll = async (name) => {
-    const users = (await usersRepository.getAll('%'+name+'%')).rows
+    const users = (await usersRepository.getAll(name)).rows
     if (users.length > 10) throw errors.toomany()
 
-    
+    users.map(x =>{
+        delete x.passengerId
+    })
+    return users
+
 }
 
 export const usersServices = {create, getAll}
