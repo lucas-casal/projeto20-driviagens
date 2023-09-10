@@ -10,9 +10,9 @@ const create = async (req, res) => {
 }
 
 const getAll = async (req, res) => {
-    const {origin, destination, "bigger-date": bigger, "smaller-date": smaller} = req.query
+    const {origin, destination, "bigger-date": bigger, "smaller-date": smaller, page} = req.query
 
-    const flights = await flightsServices.getAll(origin, destination, bigger, smaller)
+    const flights = await flightsServices.getAll(origin, destination, bigger, smaller, page)
 
     return res.send(flights)
 }

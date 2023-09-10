@@ -13,9 +13,9 @@ const create = async (req, res) => {
 }
 
 const getAll = async (req, res) => {
-    const {name} = req.query;
+    const {name, page} = req.query;
 
-    const users = await usersServices.getAll(name)
+    const users = await usersServices.getAll(name, page)
 
     res.send(users)
 }

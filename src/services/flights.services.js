@@ -21,10 +21,11 @@ const create = async (origin, destination, date) => {
     return flight
 }
 
-const getAll = async (origin, destination, bigger, smaller) => {
+const getAll = async (origin, destination, bigger, smaller, page) => {
+    if (page){if (isNaN(page) || page < 1) throw errors.invalidPage()}
     if (dayjs(bigger) < dayjs(smaller)) throw errors.invalidBigSmall('tamaho')
     if ((bigger && !smaller) || (!bigger && smaller)) throw errors.invalidBigSmall('falta')
-    const flights = (await flightsRepository.getAll(origin, destination, bigger, smaller)).rows
+    const flights = (await flightsRepository.getAll(origin, destination, bigger, smaller, page)).rows
 
     flights.map(x => {
         const data = dayjs(x.date).format('DD-MM-YYYY')

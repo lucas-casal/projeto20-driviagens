@@ -9,7 +9,7 @@ const getById = (id) => {
     return db.query(`SELECT * FROM flights WHERE id=$1;`, [id])
 }
 
-const getAll = (origin, destination, bigger, smaller) => {
+const getAll = (origin, destination, bigger, smaller, page=1) => {
     let biggerFormat;
     if (bigger){
         const day = bigger.substring(0,2);
@@ -43,9 +43,11 @@ const getAll = (origin, destination, bigger, smaller) => {
     destination ? values.push(originDestinationText(destination)) : ''
     bigger ? values.push(biggerFormat) : ''
     smaller ? values.push(smallerFormat) :'' 
+    values.push(parseInt(page-1)*10)
+
 
     
-    function queryConstructor(){
+    function queryWhereConstructor(){
         let queryWhere = parameters.length > 0 ? 'WHERE' : '';
         let count = 0;
 
@@ -86,14 +88,15 @@ const getAll = (origin, destination, bigger, smaller) => {
         return queryWhere;
         
     }
-    console.log(queryConstructor(), values)
     return db.query(`
     SELECT flights.id, o.name as origin, d.name as destination, flights.date
     FROM flights
     JOIN cities as o ON flights.origin = o.id
     JOIN cities as d ON flights.destination = d.id
-    ${queryConstructor()}
+    ${queryWhereConstructor()}
     ORDER BY date
+    LIMIT 10
+    OFFSET $${values.length}
     ; `,values)
 }
 

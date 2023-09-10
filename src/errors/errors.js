@@ -86,4 +86,10 @@ const toomany = () => {
     }
 }
 
-export const errors = {notFound, conflict, invalidLength, invalidOrigDest, invalidDate, invalidBigSmall, toomany}
+const invalidPage = () => {
+    return {
+        type: "badreq",
+        message: "Invalid page value"
+    }
+}
+export const errors = {notFound, conflict, invalidLength, invalidOrigDest, invalidDate, invalidBigSmall, toomany, invalidPage}
